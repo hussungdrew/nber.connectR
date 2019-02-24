@@ -1,7 +1,7 @@
 library(rvest)
 library(magrittr)
 library(data.table)
-
+library(stringr)
 
 # Scrape Sections and Links -----------------------------------------------
 dp <- read_html("https://www.nber.org/data")
