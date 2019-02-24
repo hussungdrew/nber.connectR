@@ -1,0 +1,41 @@
+NBER Hosted Datasets to start building out:
+
+1. SOI Tax Stats - Individual Income Tax Statistics - ZIP Code Data
+	Contains selected income and tax items classified by State, ZIP Code, 
+	and size of adjusted gross income. (also includes ZIP Code Distance Database)
+2. Boston Youth Labor Survey 
+	Survey of labor market outcomes, behavior, and attitudes of Boston youth in
+	1980 and 1989
+3. Consumer Expenditure Survey (***)
+	Collects information from nation's households on their buying habits, income, 
+	and characteristics
+4. Current Population Survey (***)
+	US Gov's monthly survey of unemployment and labor force participation
+5. Fatality Analysis Reporting System (***)
+	Traffic fatality data from NHTSA -- provide nationwide census of fatal 
+	injuries suffered in motor vehicle traffic crashes during prior year
+6. Survey of Economic Expectations
+	1994-2002 - survey of labor market experiences, demographics, and household
+	income. Asked about expectations of future economic outcomes 
+7. Survey of Income and Program Participation
+	Data on taxes, assets, liabilities, income, and particpation in government
+	transfer programs
+8. Survey of Program Dynamics (***)
+	Economic, household, and social characteristics of a nationally representative
+	sample of the US population over time
+9. Census CBSA to FIPS County Crosswalk
+	Important for auxiliary reasons
+10. NCHS to FIPS County Crosswalk
+	Important for auxiliary reasons
+11. Vital Statistics - Births (***)
+	Massive datasets of birth certificate data from a given calendar year
+	Separate files for Births, Deaths, and even datasets linking the two
+12. Census US Decennial County Population (***)
+	Population estimates every 10 years at county and state level
+13. Census US Intercensal County Population (***)
+	Population estimates between Census years at county and state level
+14. Buncha distance datasets 
+	What's the distance from one zip to another?
+	What's the distance from one county to another?
+	What's the distance from one census tract to another?
+	What counties border one another
