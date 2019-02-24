@@ -18,7 +18,7 @@ NBER Hosted Datasets to start building out:
 	1994-2002 - survey of labor market experiences, demographics, and household
 	income. Asked about expectations of future economic outcomes 
 7. Survey of Income and Program Participation
-	Data on taxes, assets, liabilities, income, and particpation in government
+	Data on taxes, assets, liabilities, income, and participation in government
 	transfer programs
 8. Survey of Program Dynamics (***)
 	Economic, household, and social characteristics of a nationally representative
@@ -39,3 +39,12 @@ NBER Hosted Datasets to start building out:
 	What's the distance from one county to another?
 	What's the distance from one census tract to another?
 	What counties border one another
+15. National Ambulatory Medical Care Survey (NAMCS) (***)
+	A national survey designed to meet the need for objective, reliable information 
+	about the provision and use of ambulatory medical care services in the United States. 
+16. FDA Mammography Facilites Database
+	The complete FDA Facilities Database. Lists of location and facility information for 
+	mammography facilites. 
+17. Vital Statistics Mortality Data (***)
+	Databases covering birth mortality, and cause of death statistics for collected by the 
+	National Center of Health Statistics for the US Government.
