@@ -76,13 +76,11 @@ sec1_dls <- sec1_dls[stringr::str_sub(sec1_dls, start = -8) == ".csv.zip"]
 read_ziplink <- function(link) {
   temp <- tempfile()
   download.file(link, temp)
-  temp_unzp <- unzip(temp)
-  data <- fread(temp_unzp)
+  temp <- unzip(temp)
+  data <- fread(temp)
   unlink(temp)
-  file.remove(temp_unzp)
   return(data)
 }
 
 # Can be slow for large datasets. 
 test <- read_ziplink(sec1_dls[[1]])
-
