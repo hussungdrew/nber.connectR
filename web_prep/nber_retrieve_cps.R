@@ -10,71 +10,53 @@
 ############################################## MORG Data ########################################################
 library(data.table)
 library(rvest)
-library(foreign)
-library(readstata13)
-
-## Head of MORG section
-morg.url <- 'https://www.nber.org/morg/annual/'
-
-######### Get links to .dta files located on morg page
-morg.links <- read_html(morg.url) %>%
-  html_nodes('a') %>%
-  html_attr('href') %>%
-  .[grepl(pattern = '.dta', x = ., ignore.case = T)]
-
-morg.names <- morg.links
-morg.names[substr(morg.links, start = 5, stop = 5) == '0' | 
-             substr(morg.links, start = 5, stop = 5) == '1'] <- paste0(substr(morg.links[substr(morg.links, start = 5, stop = 5) == '0' | 
-                                                                                           substr(morg.links, start = 5, stop = 5) == '1'], 
-                                                                              start = 1, stop = 4),
-                                                                     '20', substr(morg.links[substr(morg.links, start = 5, stop = 5) == '0' | 
-                                                                                               substr(morg.links, start = 5, stop = 5) == '1'], 
-                                                                                  start = 5, stop = nchar(morg.links)))
-morg.names[substr(morg.names, start = 5, stop = 5) != "2"] <- paste0(substr(morg.names[substr(morg.names, start = 5, stop = 5) != '2'],
-                                                                     start = 1, stop = 4),
-                                                                     '19', substr(morg.names[substr(morg.names, start = 5, stop = 5) != '2'],
-                                                                                  start = 5, stop = nchar(morg.names)))
-
-##Morg.links now ready to be made into data.table
-morg.link.table <- data.table(File = morg.names,
-                              link = paste0(morg.url, morg.links)) %>%
-  .[order(File)] %>%
-  .[ , Year := as.numeric(substr(File, start = 5, stop = 8))] %>%
-  .[!grepl('oldweights', x = link, fixed = T)]
-
-#test load in .dta file
-test <- read.dta(file = morg.link.table[23, link]) ##success!
+library(haven)
 
 ## baseline function for reading in data
-read_cps_morg <- function(start.year, end.year){
-  morg.return <- lapply(X = morg.link.table[Year %in% start.year:end.year, link],
+read_cps_morg <- function(years){
+  data('morg.link.table')
+  if (missing(years)) years <- morg.link.table[nrow(morg.link.table), Year]
+  
+  morg.return <- lapply(X = morg.link.table[Year %in% years, url],
          FUN = function(x){
-           read.dta(file = x)
+           as.data.table(haven::read_dta(file = x))
          }
       )
-  names(morg.return) <- paste0('cps.morg', start.year:end.year)
+  names(morg.return) <- paste0('cps.morg', years)
   return(morg.return)
 }
 
-test <- read_cps_morg(1979, 1983)
-
-######### Get links to description files
-desc.head <- paste0(morg.url, 'desc/')
-
-desc.local.links <- read_html(desc.head) %>%
-  html_nodes('a') %>%
-  html_attr('href') %>%
-  .[2:length(.)] 
-
-desc.full.links <- paste0(desc.head, desc.local.links, 'desc.txt')
-
-year <- paste0(ifelse(substr(desc.local.links, 5, 5) == '0' | substr(desc.local.links, 5, 5) == '1', '20', '19'), 
-               substr(desc.local.links, 5, 6)) 
-
-desc.link.table <- data.table(Year = as.numeric(year),
-                              desc.link = desc.full.links)
-
-morg.link.table <- merge(morg.link.table,
-                         desc.link.table,
-                         by = "Year", all.x = T)
+get_morg_docs <- function(years, save.locally, save.path){
   
+  if (missing(years)) {
+    stop('Please pass a numeric vector of years for which you wish to retrieve CPS MORG documentation.')
+  }
+  if (missing(save.locally)) save.locally <- FALSE
+  if (missing(save.path) & save.locally == TRUE) {
+    warning('No path given to save CPS MORG documentation. Defaulting to current working directory.')
+    save.path <- getwd()
+  }
+  
+  desc.table <- morg.link.table[Year %in% years]
+  lapply(desc.table[ , description.link],
+         FUN = function(url){
+           if (save.locally){
+             save.path <- paste0(save.path, '/',
+                                 'cps.morg.doc_', 
+                                 desc.table$Year[which(desc.table[, description.link] == url)],
+                                 '.txt')
+             download.file(description.link, destfile = save.path)
+           }
+           else url.show(url)
+         })
+}
+
+# collapse_morg_pop <- function(x, group.vars){
+#   x[ , earn.weight := earnwt/12]
+#   x[ , prop.earn := earn.weight/sum(earn.weight), by = group.vars]
+#   return(x[ , .(Population = sum(weight/3, na.rm = T),
+#                 Year = mean(as.integer(year)),
+#                 Avg.Week.Earn = weighted.mean(x = uearnwk, w = prop.earn, na.rm = T)), by = group.vars])
+# }
+# earn.pop <- lapply(test,
+#                    collapse_morg_pop, group.vars = 'state')
