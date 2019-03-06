@@ -27,6 +27,7 @@ read_cps_morg <- function(years){
 }
 
 get_morg_docs <- function(years, save.locally, save.path){
+  data('morg.link.table')
   
   if (missing(years)) {
     stop('Please pass a numeric vector of years for which you wish to retrieve CPS MORG documentation.')
