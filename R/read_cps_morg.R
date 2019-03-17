@@ -11,7 +11,7 @@ read_cps_morg <- function(years){
   if (sum(!years %in% morg.link.table[ , Year]) > 0) {
     failed.years <- years[!years %in% morg.link.table[ , Year]]
     failed.years <- paste(failed.years, collapse = ', ')
-    stop(paste0("Sorry, you've asked for FARS data for year(s): ", failed.years, '.', 
+    stop(paste0("Sorry, you've asked for CPS MORG data for year(s): ", failed.years, '.', 
                 " These are not available from the National Bureau of",
                 " Economic Researchers."))
     
