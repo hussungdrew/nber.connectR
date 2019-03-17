@@ -9,6 +9,21 @@ get_morg_docs <- function(years, save.locally, save.path){
     save.path <- getwd()
   }
   
+  # allow user to input character vector or numeric vector of years
+  if (class(years) != 'numeric') years <- as.numeric(years)
+  # order years properly
+  years.ordered <- years[order(years)]
+  
+  # Throw error if user passes invalid years
+  if (sum(!years %in% morg.link.table[ , Year]) > 0) {
+    failed.years <- years[!years %in% morg.link.table[ , Year]]
+    failed.years <- paste(failed.years, collapse = ', ')
+    stop(paste0("Sorry, you've asked for FARS data for year(s): ", failed.years, '.', 
+                " These are not available from the National Bureau of",
+                " Economic Researchers."))
+    
+  }
+  
   desc.table <- morg.link.table[Year %in% years]
   lapply(desc.table[ , description.link],
          FUN = function(url){

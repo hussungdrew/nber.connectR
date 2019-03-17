@@ -79,3 +79,5 @@ fars_melted_desc <- fars_desc %>%
 fars.link.table <- merge(fars_melted_table,
                          fars_melted_desc,
                          by = c('Year', 'dataset'))
+
+save(fars.link.table, file = 'fars.link.table.rda')
