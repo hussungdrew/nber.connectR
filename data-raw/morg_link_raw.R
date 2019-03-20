@@ -50,4 +50,6 @@ morg.link.table <- merge(morg.link.table,
                          desc.link.table,
                          by = "Year", all.x = T)
 
+save(morg.link.table, file = 'morg.link.table.rda')
+
 

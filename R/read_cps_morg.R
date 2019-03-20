@@ -16,6 +16,7 @@ read_cps_morg <- function(years){
                 " Economic Researchers."))
     
   }
+  years.ordered <- years[order(years)]
   
   morg.return <- lapply(X = morg.link.table[Year %in% years, url],
                         FUN = function(x){
